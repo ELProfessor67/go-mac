@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Progress } from "@/components/ui/progress"
 import { useQuiz } from "@/src/hooks/useQuiz"
 
-export default function QuizDialog({ open, setOpen, handelClick, quizConfig }: { open: boolean; setOpen: (open: boolean) => void; handelClick: () => void; quizConfig: any }) {
+export default function QuizDialog({ open, setOpen, handelClick, quizConfig }: { open: boolean; setOpen: (open: boolean) => void; handelClick: (status:string) => void; quizConfig: any }) {
     const {
         currentQuestion,
         answers,
@@ -122,7 +122,7 @@ export default function QuizDialog({ open, setOpen, handelClick, quizConfig }: {
 
                                     {
                                         results.result != "Fail" &&
-                                        <Button onClick={handelClick} className="mr-2">
+                                        <Button onClick={() => handelClick('pending')} className="mr-2">
                                             Continue
                                         </Button>
                                     }

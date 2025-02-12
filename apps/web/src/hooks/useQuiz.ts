@@ -17,7 +17,7 @@ type Question = {
 const QUE_SERVER_URL = "http://139.59.78.160:3000"
 
 
-function evaluateQuiz(answers:any, passingThreshold = 0.7) {
+function evaluateQuiz(answers:any, passingThreshold = 0.5) {
   const totalQuestions = answers.length;
   const correctAnswers = answers.filter((answer:any) => answer.isCorrect).length;
   

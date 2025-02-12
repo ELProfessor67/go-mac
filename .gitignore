@@ -40,3 +40,5 @@ yarn-error.log*
 package-lock.json
 
 apps/web/.env
+/deepgram-athena-1737460793967.mp3
+/index.html

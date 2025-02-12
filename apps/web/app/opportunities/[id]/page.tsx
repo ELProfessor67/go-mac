@@ -19,6 +19,7 @@ import { useQue } from "@/src/context/QueContent";
 import { FormLoader } from "@/src/components/lib/loader";
 import QuizDialog from "@/src/components/interview/quiz-diglog";
 
+
 const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 export default function Page({ params }: { params: { id: string } }) {
     const [loading, setLoading] = useState<boolean>(false);
@@ -31,6 +32,7 @@ export default function Page({ params }: { params: { id: string } }) {
     
 
     const handleApply = useCallback(async (status='pending') => {
+        console.log('aaaaa',status)
         if(status == 'unauthenticated'){
             toast.error("please login first");
             return;
