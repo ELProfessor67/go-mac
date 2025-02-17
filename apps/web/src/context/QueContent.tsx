@@ -10,6 +10,8 @@ import YourTurn from "../components/interview/your-turn";
 interface IQueContent {
     socketRef: MutableRefObject<Socket | null>;
     handleAddInQue: (data: any) => void;
+    SendPic: (data: any) => void;
+    SendAudio: (data: any) => void;
     getMyIndex: (data: any, setMyIndex: React.Dispatch<React.SetStateAction<number>>) => void;
     handleNextParticipant: (data: any, setCurrentUser: any, setQueCount: any) => void;
     handleGetCurrentRoomUser: (data: any, setCurrentId: any, setQueCount: any, setCurrentUser: any) => void;
@@ -94,12 +96,27 @@ export const QueProvider = ({ children }: { children: ReactNode }) => {
     },[yourTurn]);
 
 
+
+    const SendPic = useCallback((data:any) => {
+        console.log('sending picture...')
+        socketRef.current?.emit(QueEvent.SEND_PIC, data)
+    },[socketRef.current]);
+
+
+    const SendAudio = useCallback((data:any) => {
+        console.log('sending audio....')
+        socketRef.current?.emit(QueEvent.SEND_AUDIO, data)
+    },[socketRef.current]);
+
+
     const values = {
         socketRef,
         handleAddInQue,
         getMyIndex,
         handleNextParticipant,
-        handleGetCurrentRoomUser
+        handleGetCurrentRoomUser,
+        SendAudio,
+        SendPic
     }
     return <QueContext.Provider value={values}>
         <YourTurn open={!!yourTurn} handleSubmit={handleYourTurnSubmit}/>

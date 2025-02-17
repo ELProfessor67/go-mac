@@ -10,4 +10,6 @@ export const QueEvent = {
     UPDATE_QUE: "update:round-que",
     ROUND_JOIN: "join:round",
     DISCONNTED: 'disconnect',
+    SEND_PIC: 'send_pic',
+    SEND_AUDIO: 'send_audio',
 }

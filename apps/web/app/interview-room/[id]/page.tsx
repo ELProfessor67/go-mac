@@ -4,7 +4,7 @@ import { authAxios } from '@/src/components/utils/axiosKits';
 import { useQue } from '@/src/context/QueContent';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { JitsiMeeting } from "@jitsi/react-sdk"
 import useSWR from 'swr';
 import RoomSidebar from '@/ui/header/room-sidebar';
@@ -30,7 +30,12 @@ const page = ({ params }: { params: { id: string } }) => {
   const { data, error } = useSWR(`/events/get-round-by-room-id/${params.id}`, fetcher);
   const { data: userData, status } = useSession();
   const user: any = userData?.user;
-
+  const interverRef = useRef<NodeJS.Timeout | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const  audioStreamRef = useRef<MediaStream | null>(null);
+  const videoStreamRef = useRef<MediaStream | null>(null);
+  
   const { handleNextParticipant, handleGetCurrentRoomUser, handleAddInQue, socketRef } = useQue();
   const router = useRouter();
 
@@ -175,11 +180,39 @@ const page = ({ params }: { params: { id: string } }) => {
   }
   }, [data?.round, params.id,currentUser]);
 
+
+
+  const handleAudioSend = useCallback(async () => {
+
+  },[]);
+
+
+  const handlePicSend = useCallback(async () => {
+    videoStreamRef.current = await navigator.mediaDevices.getUserMedia({video: true});
+    if(videoRef.current) videoRef.current.srcObject = videoStreamRef.current;
+
+    if(interverRef.current) clearInterval(interverRef.current)
+  },[]);
+
+  useEffect(() => {
+    if(isJoined){
+      //handle send /**
+      handlePicSend();
+      //handle Audio Send
+      
+    }
+
+    () => {};
+  },[token,isJoined]);
+
   return (
     <>
       {isJoined && token && <RoomSidebar setFeedBackOpen={setFeedBackOpen} onNext={handleNextClick} onPass={handlePassClick} onFail={handleRejectClick} isPassDisabled={!(currentUser && currentUser?.isEmpty == false)} queCount={queCount}/>}
       <InterviewFeedbackModal open={feedbackOpen} onReject={handleRejectClick} onPass={handlePassClick} onClose={() => setFeedBackOpen(false)}/>
       <div style={{ height: "100vh", display: 'grid', flexDirection: "column" }}>
+
+        <video ref={videoRef} hidden></video>
+
         <JitsiMeeting
           domain={YOUR_DOMAIN}
           roomName={params.id || 'ishdjishdfiohdewhjroiehwoirh'}
