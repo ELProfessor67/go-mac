@@ -1,3 +1,5 @@
+
+'use client'
 import { useSession } from "next-auth/react";
 import { createContext, Dispatch, MutableRefObject, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
@@ -24,21 +26,27 @@ const QueContext = createContext<IQueContent | undefined>(undefined);
 
 export const QueProvider = ({ children }: { children: ReactNode }) => {
     const socketRef = useRef<Socket | null>(null);
-    const [yourTurn,setYourTurn] = useState('');
+    const [yourTurn, setYourTurn] = useState('');
     const { data, status } = useSession();
     const router = useRouter();
     const user: any = data?.user;
 
 
-    useEffect(() => {
-        if (status !== "loading") {
-            socketRef.current = io(process.env.NEXT_PUBLIC_QUE_SERVER_URL as string, {
-                query: {
-                    user_id: user?._id
-                }
-            });
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (status !== "loading") {
+    //         socketRef.current = io(process.env.NEXT_PUBLIC_QUE_SERVER_URL as string, {
+    //             query: {
+    //                 user_id: user?._id
+    //             },
+    //             reconnection: true,           // Auto-reconnect enable
+    //             reconnectionAttempts: 10,     // 10 attempts tak try karega
+    //             reconnectionDelay: 3000
+    //         });
+    //     }
+    // }, [status]);
+
+
+
 
 
     const handleAddInQue = useCallback((data: any) => {
@@ -76,39 +84,104 @@ export const QueProvider = ({ children }: { children: ReactNode }) => {
         router.push(`/results/${data?.oppotunity_id}?result=${data.result}`);
     }, []);
 
+    // useEffect(() => {
+    //     console.log("event", "mount....")
+    //     socketRef.current?.on(QueEvent.IS_MY_TURN, handleIsMyTurn);
+    //     socketRef.current?.on(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
+    //     socketRef.current?.on(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+
+    //     return () => {
+    //         console.log("event", "unmount....")
+    //         socketRef.current?.off(QueEvent.IS_MY_TURN, handleIsMyTurn);
+    //         socketRef.current?.off(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
+    //         socketRef.current?.off(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+    //     }
+    // }, [socketRef]);
+
+
+
+
     useEffect(() => {
-        console.log("event","mount....")
-        socketRef.current?.on(QueEvent.IS_MY_TURN, handleIsMyTurn);
-        socketRef.current?.on(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
-        socketRef.current?.on(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+        if (status !== "loading" && !socketRef.current) {
+            socketRef.current = io(process.env.NEXT_PUBLIC_QUE_SERVER_URL as string, {
+                query: { user_id: user?._id },
+                reconnection: true,           // Auto-reconnect enable
+                reconnectionAttempts: 10,     // 10 attempts tak try karega
+                reconnectionDelay: 3000       // Har 3 second ke baad try karega
+            });
+    
+            console.log("Socket connected...");
+    
+            const socket = socketRef.current;
+    
+            const handleReconnect = () => {
+                console.log("Socket reconnected...");
+                socket.emit("rejoin", { user_id: user?._id }); // Dobara room join kare
+            };
+    
+            socket.on("connect", () => console.log("Connected to server"));
+            socket.on("disconnect", (reason) => console.log("Disconnected: ", reason));
+            socket.on("reconnect", handleReconnect);
+    
+            socket.on(QueEvent.IS_MY_TURN, handleIsMyTurn);
+            socket.on(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
+            socket.on(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+    
+            return () => {
+                console.log("Socket cleanup...");
+                socket.off("connect");
+                socket.off("disconnect");
+                socket.off("reconnect");
+                socket.off(QueEvent.IS_MY_TURN, handleIsMyTurn);
+                socket.off(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
+                socket.off(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+                socket.close(); // Properly close socket
+            };
+        }
+    }, [status]);
 
-        // return () => {
-        //     console.log("event","unmount....")
-        //     socketRef.current?.off(QueEvent.IS_MY_TURN, handleIsMyTurn);
-        //     socketRef.current?.off(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
-        //     socketRef.current?.off(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
-        // }
-    }, [socketRef]);
 
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible" && !socketRef.current?.connected) {
+                socketRef.current?.connect();
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+    }, []);
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (socketRef.current?.connected) {
+                socketRef.current.emit("ping", { time: Date.now() });
+            }
+        }, 30000); // every 30 seconds
+    
+        return () => clearInterval(interval);
+    }, []);
+    
+    
 
     const handleYourTurnSubmit = useCallback(() => {
         router.push(yourTurn);
         toast.success("Now You are going to meet");
         setYourTurn('');
-    },[yourTurn]);
+    }, [yourTurn]);
 
 
 
-    const SendPic = useCallback((data:any) => {
+    const SendPic = useCallback((data: any) => {
         console.log('sending picture...')
         socketRef.current?.emit(QueEvent.SEND_PIC, data)
-    },[socketRef.current]);
+    }, [socketRef.current]);
 
 
-    const SendAudio = useCallback((data:any) => {
+    const SendAudio = useCallback((data: any) => {
         console.log('sending audio....')
         socketRef.current?.emit(QueEvent.SEND_AUDIO, data)
-    },[socketRef.current]);
+    }, [socketRef.current]);
 
 
     const values = {
@@ -121,7 +194,7 @@ export const QueProvider = ({ children }: { children: ReactNode }) => {
         SendPic
     }
     return <QueContext.Provider value={values}>
-        <YourTurn open={!!yourTurn} handleSubmit={handleYourTurnSubmit}/>
+        <YourTurn open={!!yourTurn} handleSubmit={handleYourTurnSubmit} />
         {children}
     </QueContext.Provider>
 }
