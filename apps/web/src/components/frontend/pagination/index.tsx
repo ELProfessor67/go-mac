@@ -1,3 +1,6 @@
+import Image from "next/image";
+import ReactPaginate from "react-paginate";
+
 const Pagination = ({
   totalCount,
   showPerPage,
@@ -16,7 +19,7 @@ const Pagination = ({
 
   return (
     <div className="mx-auto px-4 mt-10">
-      {/* <ReactPaginate
+      <ReactPaginate
         pageCount={numberOfPages.length}
         marginPagesDisplayed={2}
         pageRangeDisplayed={3}
@@ -29,7 +32,7 @@ const Pagination = ({
             <Image
               width={20}
               height={20}
-              noPlaceholder
+              
               src="/assets/img/arrow-left-circle1.svg"
               alt="previous icon"
             />
@@ -40,7 +43,7 @@ const Pagination = ({
             <Image
               width={20}
               height={20}
-              noPlaceholder
+              
               src="/assets/img/arrow-left-circle.svg"
               alt="next icon"
             />
@@ -54,7 +57,7 @@ const Pagination = ({
         pageLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white`}
         breakLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white`}
         activeLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md !bg-themePrimary text-white`}
-      /> */}
+      />
     </div>
   );
 };

@@ -13,7 +13,9 @@ import EventCard from "@/src/components/frontend/event/event-card";
 const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 
 export default function CareerAdvice() {
-    const { data, error } = useSWR("/events/upcoming", fetcher);
+    const { data, error } = useSWR("/events/upcoming", fetcher,{
+        dedupingInterval: 0
+    });
 
     return (
         <>

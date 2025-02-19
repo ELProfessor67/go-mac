@@ -8,7 +8,9 @@ import UpcomingEventCard from "./upcoming-event-card";
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const UpcomingEvent = () => {
-  const {data, error } = useSWR("/events/upcoming", fetcher);
+  const {data, error } = useSWR("/events/upcoming", fetcher,{
+    dedupingInterval: 0,
+  });
 
 
   return (

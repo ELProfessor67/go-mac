@@ -125,13 +125,9 @@ export default function EventsBanner() {
       {
         currentEvent &&
         <section className="w-full h-screen relative overflow-hidden">
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
+       
+            <div
               key={currentEvent._id}
-              variants={parentVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
               className="absolute inset-0"
             >
               {currentEvent && currentEvent.coverImage && (
@@ -140,25 +136,21 @@ export default function EventsBanner() {
                   style={{ backgroundImage: `url(${currentEvent.coverImage})` }}
                 >
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center px-4 py-8">
-                    <motion.div
-                      variants={childVariants}
+                    <div
                       className="flex flex-col items-center max-w-4xl"
                     >
-                      <motion.p
-                        variants={childVariants}
+                      <p
                         className="text-xl md:text-2xl mb-4 text-yellow-500 font-semibold"
                       >
                         {formatDateWithMonthMap(currentEvent.date)}
-                      </motion.p>
-                      <motion.h2
-                        variants={childVariants}
+                      </p>
+                      <h2
                         className="text-4xl md:text-7xl font-extrabold text-white text-center mb-6"
                       >
                         {currentEvent.eventName}{" "}
                         {new Date(currentEvent.date).getFullYear()}
-                      </motion.h2>
-                      <motion.div
-                        variants={childVariants}
+                      </h2>
+                      <div
                         className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6"
                       >
                         <p className="text-[18px] uppercase text-white">
@@ -181,7 +173,7 @@ export default function EventsBanner() {
                           </span>
                         </p>
 
-                      </motion.div>
+                      </div>
                       <motion.button
                         variants={childVariants}
                         className="bg-yellow-500 hover:bg-yellow-600 px-8 py-3 rounded-lg text-white font-normal text-md transition-colors duration-300"
@@ -189,12 +181,11 @@ export default function EventsBanner() {
                       >
                         Book Now
                       </motion.button>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
 
 
         </section>

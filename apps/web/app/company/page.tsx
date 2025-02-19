@@ -17,6 +17,7 @@ import React from "react";
 import useSWR from "swr";
 import { Suspense } from 'react';
 import { LoaderGrowing } from "@/src/components/lib/loader";
+import { ConnectionStates } from "mongoose";
 
 const fetcher = (url: AxiosRequestConfig<any>) => Axios(url).then((res) => res.data.data);
 const CompanyAPI = "/companies/search";
@@ -29,7 +30,7 @@ function CompanyDataList() {
     img: string;
     // Add other properties as needed
   }
-  
+
   const [AllCompanies, setAllCompanies] = React.useState<{
     totalCompanyCount: number;
     companies: Company[];
@@ -50,6 +51,7 @@ function CompanyDataList() {
       totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
       loading: true,
     },
+    dedupingInterval: 0
   });
 
   const handlePageChange = (data: { selected: React.SetStateAction<number>; }) => setCurrentPage(data.selected);
@@ -62,6 +64,8 @@ function CompanyDataList() {
       }
     }
   }, [data]);
+
+
 
   if (error) return <div>Error! {error.message}</div>;
   if (!data)
@@ -111,6 +115,7 @@ function CompanyDataList() {
               </div>
             )}
             {AllCompanies?.totalCompanyCount > companiesPerPage && (
+
               <Pagination
                 totalCount={AllCompanies?.totalCompanyCount}
                 showPerPage={companiesPerPage}
@@ -126,7 +131,7 @@ function CompanyDataList() {
 
 export default function Company() {
   return (
-    <Suspense fallback={<LoaderGrowing/>}>
+    <Suspense fallback={<LoaderGrowing />}>
       <Head>
         <meta name="description" content="Company List. Explore the expert companies. Find all companies." />
       </Head>
