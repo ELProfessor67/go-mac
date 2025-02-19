@@ -4,20 +4,16 @@ import useSWR, { mutate } from "swr";
 import { authAxios } from "../../utils/axiosKits";
 import { IEvent } from "@/interface/EventInterface";
 import UpcomingEventCard from "./upcoming-event-card";
+import { useFetch } from "@/src/hooks/useFetch";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const UpcomingEvent = () => {
-  const {data, error } = useSWR("/events/upcoming", fetcher,{
-    dedupingInterval: 0
-  });
+  // const {data, error } = useSWR("/events/upcoming", fetcher,{
+  //   dedupingInterval: 0
+  // });
 
-
-
-  const refreshData = () => {
-    mutate('/events/upcoming');
-  };
-  useEffect(() => {refreshData},[])
+  const {data, error } = useFetch("/api/v1/events/upcoming");
 
 
   return (

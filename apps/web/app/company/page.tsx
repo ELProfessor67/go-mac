@@ -18,9 +18,10 @@ import useSWR, { mutate } from "swr";
 import { Suspense } from 'react';
 import { LoaderGrowing } from "@/src/components/lib/loader";
 import { ConnectionStates } from "mongoose";
+import { useFetch } from "@/src/hooks/useFetch";
 
 const fetcher = (url: AxiosRequestConfig<any>) => Axios(url).then((res) => res.data.data);
-const CompanyAPI = "/companies/search";
+const CompanyAPI = "/api/v1/companies/search";
 
 function CompanyDataList() {
   const [currentPage, setCurrentPage] = React.useState(0);
@@ -44,20 +45,18 @@ function CompanyDataList() {
   const currentPath = pathname === "/company" ? CompanyAPI : `${CompanyAPI}${pathname.replace("/company", "")}`;
 
   const API = `${currentPath}?&page=${currentPage}`;
-  const { data, error } = useSWR(API, fetcher, {
-    fallbackData: {
-      companies: companiesPerData,
-      companyFilter: companyFilter,
-      totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
-      loading: true,
-    },
-    dedupingInterval: 0
-  });
+  // const { data, error } = useSWR(API, fetcher, {
+  //   fallbackData: {
+  //     companies: companiesPerData,
+  //     companyFilter: companyFilter,
+  //     totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
+  //     loading: true,
+  //   },
+  //   dedupingInterval: 0
+  // });
 
-  const refreshData = () => {
-    mutate(API);
-  };
-  useEffect(() => {refreshData},[])
+  const {data, error } = useFetch(API);
+
 
   const handlePageChange = (data: { selected: React.SetStateAction<number>; }) => setCurrentPage(data.selected);
 

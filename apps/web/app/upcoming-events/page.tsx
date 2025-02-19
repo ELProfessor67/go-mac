@@ -9,19 +9,16 @@ import Layout from "@/src/components/frontend/layout";
 import PageTitle from "@/src/components/frontend/page-title";
 import blogsDataPre from "@/src/data/blogData.json";
 import EventCard from "@/src/components/frontend/event/event-card";
+import { useFetch } from "@/src/hooks/useFetch";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 
 export default function CareerAdvice() {
-    const { data, error } = useSWR("/events/upcoming", fetcher, {
-        dedupingInterval: 0
-    });
+    // const { data, error } = useSWR("/events/upcoming", fetcher, {
+    //     dedupingInterval: 0
+    // });
 
-
-    const refreshData = () => {
-        mutate('/events/upcoming');
-    };
-    useEffect(() => { refreshData }, [])
+    const {data, error } = useFetch("/api/v1/events/upcoming");
 
     return (
         <>
