@@ -77,16 +77,18 @@ export const QueProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     useEffect(() => {
+        console.log("event","mount....")
         socketRef.current?.on(QueEvent.IS_MY_TURN, handleIsMyTurn);
         socketRef.current?.on(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
         socketRef.current?.on(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
 
-        return () => {
-            socketRef.current?.off(QueEvent.IS_MY_TURN, handleIsMyTurn);
-            socketRef.current?.off(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
-            socketRef.current?.on(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
-        }
-    }, [socketRef.current]);
+        // return () => {
+        //     console.log("event","unmount....")
+        //     socketRef.current?.off(QueEvent.IS_MY_TURN, handleIsMyTurn);
+        //     socketRef.current?.off(QueEvent.GO_ON_WAITING_ROOM, handleGoOnWaitingRoom);
+        //     socketRef.current?.off(QueEvent.GO_ON_RESULT_PAGE, handleGoOnResultPage);
+        // }
+    }, [socketRef]);
 
 
     const handleYourTurnSubmit = useCallback(() => {
