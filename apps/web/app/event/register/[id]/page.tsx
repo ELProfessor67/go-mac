@@ -47,10 +47,10 @@ const Page: FC<IProps> = ({ params }) => {
     { name: `Round 1`, description: '', roundType: '', index: 0, rooms: [{ interviewerName: '', interviewerEmail: '' }] }
   ]);
   const [quizConfig, setQuizConfig] = useState({
-      mode: 'medium',
-      difficulty: 'medium',
-      topic: '',
-      keywords: ''
+    mode: 'medium',
+    difficulty: 'medium',
+    topic: '',
+    keywords: ''
   });
   const [loading, setLoading] = useState<boolean>(false);
   const userData = data?.user as User;
@@ -135,39 +135,31 @@ const Page: FC<IProps> = ({ params }) => {
             <>
 
               <div className="bg-white shadow-md p-5 rounded-md">
-                <div className=" mt-10">
-                  
-                  <div className="space-y-8">
-                    <div className="flex justify-between gap-16">
-                      <p className="text-lg">Name</p>
-                      <p>{alreadyRegisterDeatils.name}</p>
-                    </div>
-                    <div className="flex justify-between gap-16">
-                      <p className="text-lg">Description</p>
-                      <p className="text-md">{alreadyRegisterDeatils.description?.slice(0, 40)}...</p>
-                    </div>
-                    <div className="flex justify-between gap-16">
-                      <p className="text-lg">Role</p>
-                      <p>{alreadyRegisterDeatils.role}</p>
-                    </div>
-                    <div className="flex justify-between gap-16">
-                      <p className="text-lg">Event</p>
-                      <p>{alreadyRegisterDeatils.event_id}</p>
-                    </div>
-                    <div className="flex justify-between gap-16">
-                      <p className="text-lg">Total Round</p>
-                      <p>{alreadyRegisterDeatils.rounds?.length}</p>
-                    </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-md h-[15rem] bg-yellow-500 flex flex-col items-center justify-center">
+                    <h1 className="text-white text-lg opacity-60">Name</h1>
+                    <h1 className="text-white text-xl">{alreadyRegisterDeatils.name}</h1>
+                  </div>
+                  <div className="p-4 rounded-md h-[15rem] bg-purple-500 flex flex-col items-center justify-center">
+                    <h1 className="text-white text-lg opacity-60">Role</h1>
+                    <h1 className="text-white text-xl">{alreadyRegisterDeatils.role}</h1>
+                  </div>
+                  <div className="p-4 rounded-md h-[15rem] bg-blue-500 flex flex-col items-center justify-center">
+                    <h1 className="text-white text-lg opacity-60">Total Round</h1>
+                    <h1 className="text-white text-xl">{alreadyRegisterDeatils.rounds?.length}</h1>
+                  </div>
+                </div>
 
+                <div className=" mt-10">
+                  <h1 className="text-4xl text-center">Interview Rooms Links</h1>
+                  <div className="space-y-8 flex flex-row w-full overflow-x-auto p-2">
                     {
-                      alreadyRegisterDeatils.rounds?.map((round: Round) => (
+                      alreadyRegisterDeatils.rounds?.map((round: Round,roundIndex: number) => (
                         <>
                           {
-                            round.rooms.map((room: Room, index) => (
-                              <div className="flex justify-between gap-16">
-                                <p className="text-lg">{round.name} - Room {index + 1}</p>
-                                <button className="bg-themePrimary hover:bg-themeDarkerAlt text-white px-4 py-2 rounded-md" onClick={() => copyToClipboard(room._id as string, room.accessToken as string)}>Copy Link</button>
-                              </div>
+                            round.rooms.map((room: Room, roomIndex) => (
+                                <button title={`Round-${roundIndex+1} Room-${roomIndex}`} className="bg-themePrimary hover:bg-themeDarkerAlt text-white px-4 py-2 rounded-md" onClick={() => copyToClipboard(room._id as string, room.accessToken as string)}>R{roundIndex+1}-R{roomIndex+1}</button>
+                              
                             ))
                           }
                         </>

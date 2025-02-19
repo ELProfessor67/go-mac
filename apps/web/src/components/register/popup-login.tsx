@@ -1,8 +1,8 @@
 "use client";
 import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { BsApple } from 'react-icons/bs';
 import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -29,7 +29,13 @@ const PopupLogin = () => {
     reset,
     setValue,
     formState: { errors, isSubmitting },
+    control,
   } = useForm();
+
+  const email = useWatch({ control, name: "email" });
+  const password = useWatch({ control, name: "password" });
+  useEffect(() => setMessage(''),[email,password,LoginPopup]);
+
   const router = useRouter();
   const { addToast } = useToasts();
 
@@ -63,12 +69,13 @@ const PopupLogin = () => {
         setMessage("Invalid Credential")
         console.error(result.error);
       }
-   
+      setLoading(false);
     }).catch(error => {
       setMessage("Invalid Credential");
       console.log(error.message);
+      setLoading(false);
     });
-    setLoading(false);
+   
   };
 
   const RegisterHandler = async () => {
@@ -80,7 +87,7 @@ const PopupLogin = () => {
 
   return (
     <div
-      className={`fixed w-full h-full z-[98] top-0 left-0 bg-[#000000b3] text-[#fff] transition-all ease-in-out duration-300 ${
+      className={`fixed w-full h-full z-[1000000] top-0 left-0 bg-[#000000b3] text-[#fff] transition-all ease-in-out duration-300 ${
         LoginPopup ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}
     >
@@ -202,13 +209,7 @@ const PopupLogin = () => {
               </button>
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5">
-              {/* GitHub Login */}
-              <button
-                className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-                onClick={() => signIn('github')}
-              >
-                <FaGithub className="text-2xl" /> Sign in
-              </button>
+             
               {/* Google Login */}
               <button
                 className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
@@ -217,26 +218,12 @@ const PopupLogin = () => {
                 <FcGoogle className="text-2xl" /> Sign in
               </button>
 
-              {/* Facebook Login */}
-              <button
-                className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-                onClick={() => signIn('facebook')}
-              >
-                <FaFacebook className="text-2xl" /> Sign in
-              </button>
               {/* Linkedin Login */}
               <button
                 className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
                 onClick={() => signIn('linkedin')}
               >
                 <FaLinkedin className="text-2xl" /> Sign in
-              </button>
-              {/* Apple login */}
-              <button
-                className={`!py-3 px-7 flex gap-2 col-span-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-                onClick={() => signIn('apple')}
-              >
-                <BsApple className="text-2xl" /> Sign in
               </button>
             </div>
           </div>

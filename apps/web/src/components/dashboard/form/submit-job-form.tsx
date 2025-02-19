@@ -4,7 +4,7 @@ import _ from "lodash";
 import Multiselect from "multiselect-react-dropdown";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToasts } from "@/src/components/toast/toast";
 import useSWR, { useSWRConfig } from "swr";
@@ -21,6 +21,7 @@ const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 const SubmitJobForm = ({ userData }: { userData: any }) => {
   const [isMailSent, setIsMailSent] = React.useState(false);
   const [emailType, setEmailType] = React.useState("");
+  const [popen, setpopen] = useState(false);
   const Router = useRouter();
 
   const { data: filterData, error: filterError } = useSWR(
@@ -53,12 +54,15 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const { categoryData } = React.useContext(ThemeContext) as any;
   const [companyName, setCompanyName] = React.useState("");
   const [JobHeaderImg, setJobHeaderImg] = React.useState("");
-  const Package = userData?.package ? false : true;
+  let Package = userData?.package ? false : true;
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
   const { mutate } = useSWRConfig();
   const { addToast } = useToasts();
+  const [redenr,setRender] = useState(false)
 
+
+  useEffect(() => {setpopen(Package)},[Package])
   
 
   // register submit job form
@@ -177,6 +181,9 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
       }).then((res) => {
         mutate("/users/retrives").then(() => {
           setLoading(false);
+          Package = false
+          setpopen(false)
+          setRender(prev => !prev)
           addToast(res.data.message, {
             appearance: "success",
             autoDismiss: true,
@@ -190,12 +197,18 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           autoDismiss: true,
         });
         setLoading(false);
+        Package = false
+        setpopen(false)
+        setRender(prev => !prev)
       } else {
         addToast(error?.message, {
           appearance: "error",
           autoDismiss: true,
         });
         setLoading(false);
+        Package = false
+        setpopen(false)
+        setRender(prev => !prev)
       }
     }
   };
@@ -755,7 +768,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
         </div>
       </div>
       {/* package select popup */}
-      {Package && (
+      {Package && popen && (
         <div className={`absolute top-0 left-0 w-full h-full z-30`}>
           {/* popup box wrapper */}
           <div className="flexed top-0 left-0 bottom-0 right-0">

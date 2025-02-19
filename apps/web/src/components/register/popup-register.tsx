@@ -121,7 +121,7 @@ const PopupRegister = () => {
   return (
     // Popup Register Wrapper
     <section
-      className={`fixed w-full h-full top-0 left-0 bg-[rgba(0,_0,_0,_0.7)] z-[9999] text-white transition-all duration-300 ease-in-out  ${RegisterPopup ? "opacity-100 visible" : "opacity-0 invisible"
+      className={`fixed w-full h-full top-0 left-0 bg-[rgba(0,_0,_0,_0.7)] z-[1000000] text-white transition-all duration-300 ease-in-out  ${RegisterPopup ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
     >
       <div className="flex justify-center items-center w-full h-screen">

@@ -174,22 +174,24 @@ export async function registerOnEvent(
       .exec();
 
     // Send emails in parallel (doesn't block the response)
+    console.log(updatedOpportunity.rounds[0].rooms, "rounds");
     const emailPromises = updatedOpportunity.rounds.flatMap((round:any) =>
       round.rooms.map((room:any) =>
         sendTakeInterviewInvitaionMail(
-          room.interviewerEmail,
+          
           `Interview Invitation for ${updatedOpportunity.name}`,
           generateMail(`Dear ${room.interviewerName},
 
-            You have been invited to conduct an interview for the opportunity: [Opportunity Name].
+            You have been invited to conduct an interview for the opportunity:  ${updatedOpportunity.name}.
 
             Interview Details:
             Event Date: ${new Date(event.date).toDateString()}
             Round: ${round.name}
-            Room Link: ${process.env.endPointFrontend}/interview-room/${room._id}?accessToken=${room.acccessToken}
+            Room Link: ${process.env.endPointFrontend}/interview-room/${room._id}?accessToken=${room.accessToken}
             Please make sure to join the room on time to conduct the interview. If you face any issues or have questions, feel free to reach out to us.
 
-            Thank you for your time, and we look forward to your participation!`)
+            Thank you for your time, and we look forward to your participation!`),
+            room.interviewerEmail,
         )
       )
     );

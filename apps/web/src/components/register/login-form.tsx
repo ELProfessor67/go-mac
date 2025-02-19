@@ -1,8 +1,8 @@
 "use client"
 import { getSession, signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useContext, useEffect, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { BsApple } from 'react-icons/bs';
 import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -22,7 +22,13 @@ const LoginForm = () => {
     reset,
     setValue,
     formState: { errors },
+    control
   } = useForm();
+
+
+  const email = useWatch({ control, name: "email" });
+  const password = useWatch({ control, name: "password" });
+  useEffect(() => setMessage(''), [email, password]);
 
   const { addToast } = useToasts();
 
@@ -140,24 +146,12 @@ const LoginForm = () => {
       </form>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5">
-        <button
-          className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-          onClick={() => signIn('github')}
-        >
-          <FaGithub className="text-2xl" /> Sign in
-        </button>
+        
         <button
           className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
           onClick={() => signIn('google')}
         >
           <FcGoogle className="text-2xl" /> Sign in
-        </button>
-        {/* Facebook Login */}
-        <button
-          className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-          onClick={() => signIn('facebook')}
-        >
-          <FaFacebook className="text-2xl" /> Sign in
         </button>
         {/* Linkedin Login */}
         <button
@@ -165,13 +159,6 @@ const LoginForm = () => {
           onClick={() => signIn('linkedin')}
         >
           <FaLinkedin className="text-2xl" /> Sign in
-        </button>
-        {/* Apple login */}
-        <button
-          className={`!py-3 px-7 flex gap-2 col-span-2 justify-center items-center transition-all duration-300 ease-in-out w-full text-base text-white font-normal text-center leading-6 rounded-md bg-black hover:opacity-70`}
-          onClick={() => signIn('apple')}
-        >
-          <BsApple className="text-2xl" /> Sign in
         </button>
       </div>
     </div>

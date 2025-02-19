@@ -1,5 +1,5 @@
 "use client";
-import _ from "lodash";
+import _, { set } from "lodash";
 import Head from "next/head";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import useSWR from "swr";
@@ -88,6 +88,21 @@ export default function Page({ params }: { params: { id: string } }) {
         }
     },[data,user]);
 
+
+    const handleLiveInterview = useCallback(() => {
+        if(status == 'unauthenticated'){
+            toast.error("please login first");
+            return;
+        }
+        if(!user.role.isCandidate){
+            toast.error("As a Employer you cannot apply for interview.");
+            return;
+        }
+
+
+        setOpen(true);
+    },[status,user])
+
     return (
         <>
             <Head>
@@ -127,7 +142,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         className="w-full bg-themePrimary hover:bg-themeDarkerAlt disabled:bg-themeDarkerAlt text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out flex items-center justify-center group"
                                         aria-label="Register for event"
                                         // onClick={handleApply}
-                                        onClick={() => setOpen(true)}
+                                        onClick={handleLiveInterview}
                                         disabled={loading}
                                     >
                                         <span>{!loading ? 'Apply For Live Interview' : 'Loading...'}</span>

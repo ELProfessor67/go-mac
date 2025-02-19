@@ -2044,7 +2044,7 @@ export async function sendNotificationEmail(input: any) {
 
 
 
-export const sendTakeInterviewInvitaionMail = async (subject: string, html: string, from: string) => {
+export const sendTakeInterviewInvitaionMail = async (subject: string, html: string, to: string) => {
     try {
         let transporter = nodemailer.createTransport({
             host: process.env.NODEMAILER_HOST as string,
@@ -2056,11 +2056,13 @@ export const sendTakeInterviewInvitaionMail = async (subject: string, html: stri
             },
         });
         const option = {
-            from: from,
-            to: process.env.NODEMAILER_EMAIL,
+            from: process.env.NODEMAILER_EMAIL,
+            to: to,
             subject: subject,
             html: html,
         }
+
+        console.log('sending...',subject,to)
         const info = await transporter.sendMail(option);
         return info
     } catch (error) {

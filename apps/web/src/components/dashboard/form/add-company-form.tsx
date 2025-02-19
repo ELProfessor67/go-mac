@@ -140,7 +140,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="companyTagline">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company Tagline{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -156,7 +156,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="location">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company Headquarters{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -171,7 +171,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="locationLatitude">
               <p className="text-base font-normal text-themeDark pb-3">
                 Latitude{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -187,7 +187,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="locationLongitude">
               <p className="text-base font-normal text-themeDark pb-3">
                 Longitude{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -201,7 +201,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="logoImage">
               <p className="text-base font-normal text-themeDark !pb-3">
                 Company Logo{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <div className="border border-gray rounded !py-2 !px-3">
                 {LogoImg && (
@@ -257,7 +257,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="videoLink">
               <p className="text-base font-normal text-themeDark pb-3">
                 video{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -272,7 +272,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="eatablishedDate">
               <p className="text-base font-normal text-themeDark pb-3">
                 Since{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -287,7 +287,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="companyWebsite">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company Website
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -302,7 +302,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="companyEmail">
               <p className="text-base font-normal text-themeDark pb-3">
                 Email{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -318,7 +318,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="phoneNumber">
               <p className="text-base font-normal text-themeDark pb-3">
                 Phone Number
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -333,7 +333,7 @@ const AddCompanyForm = () => {
             <label className=" w-full sm:w-1/2" htmlFor="facebookLink">
               <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
                 Facebook URL
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -349,7 +349,7 @@ const AddCompanyForm = () => {
             <label className=" w-full sm:w-1/2" htmlFor="twitterLink">
               <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
                 Twitter URL
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -364,7 +364,7 @@ const AddCompanyForm = () => {
             <label className=" w-full sm:w-1/2" htmlFor="linkedinLink">
               <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
                 Linkedin URL
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <input
                 className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
@@ -380,7 +380,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="companySize">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company Size{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <select
                 aria-label="Default select example"
@@ -403,7 +403,7 @@ const AddCompanyForm = () => {
             <label className=" w-full sm:w-1/2" htmlFor="avarageSalary">
               <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
                 Average Salary{" "}
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <select
                 aria-label="Default select example"
@@ -424,7 +424,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="revenue">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company Revenue
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <select
                 aria-label="Default select example"
@@ -444,7 +444,7 @@ const AddCompanyForm = () => {
             <label className="w-full sm:w-1/2" htmlFor="category">
               <p className="text-base font-normal text-themeDark pb-3">
                 Company category
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <select
                 aria-label="Default select example"
@@ -472,7 +472,7 @@ const AddCompanyForm = () => {
             <label className="w-full" htmlFor="headerImage">
               <p className="text-base font-normal text-themeDark !pb-1">
                 Header Image
-                <span className="text-sm text-themeDarkAlt">(optional)</span>
+                <span className="text-sm text-themeDarkAlt">*</span>
               </p>
               <div className="border border-gray rounded !py-2 !px-3">
                 {CompanyHeaderImg && (

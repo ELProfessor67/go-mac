@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Progress } from "@/components/ui/progress"
 import { useQuiz } from "@/src/hooks/useQuiz"
+import { X } from "lucide-react"
 
 export default function QuizDialog({ open, setOpen, handelClick, quizConfig }: { open: boolean; setOpen: (open: boolean) => void; handelClick: (status:string) => void; quizConfig: any }) {
     const {
@@ -46,7 +47,10 @@ export default function QuizDialog({ open, setOpen, handelClick, quizConfig }: {
     return (
 
         <div className={`fixed top-0 left-0 right-0  bottom-0 bg-black/20 ${!open && 'hidden'} z-[100000] overflow-auto`}>
-            <div className="bg-white w-[45rem] p-5 mx-auto mt-32 rounded-md">
+            <div className="bg-white w-[45rem] p-5 mx-auto mt-32 rounded-md relative">
+                <div className="absolute top-0 right-0 p-2">
+                    <Button onClick={() => setOpen(false)} className="bg-black text-white"><X/></Button>
+                </div>
                 <>
                     {
                         !loading && !error &&
