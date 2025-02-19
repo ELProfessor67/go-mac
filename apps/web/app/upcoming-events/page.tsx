@@ -1,8 +1,8 @@
 "use client";
 import _ from "lodash";
 import Head from "next/head";
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 import { Axios } from "@/src/components/utils/axiosKits";
 import BlogItem from "@/src/components/frontend/blog/blog-item";
 import Layout from "@/src/components/frontend/layout";
@@ -13,9 +13,15 @@ import EventCard from "@/src/components/frontend/event/event-card";
 const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 
 export default function CareerAdvice() {
-    const { data, error } = useSWR("/events/upcoming", fetcher,{
+    const { data, error } = useSWR("/events/upcoming", fetcher, {
         dedupingInterval: 0
     });
+
+
+    const refreshData = () => {
+        mutate('/events/upcoming');
+    };
+    useEffect(() => { refreshData }, [])
 
     return (
         <>
@@ -37,9 +43,9 @@ export default function CareerAdvice() {
                                 ))}
                             </div>
                         </div>
-                </section>
-            </main>
-        </Layout >
-    </>
-  );
+                    </section>
+                </main>
+            </Layout >
+        </>
+    );
 }

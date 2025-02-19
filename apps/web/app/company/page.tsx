@@ -13,8 +13,8 @@ import _ from "lodash";
 import Head from "next/head";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 import { Suspense } from 'react';
 import { LoaderGrowing } from "@/src/components/lib/loader";
 import { ConnectionStates } from "mongoose";
@@ -53,6 +53,11 @@ function CompanyDataList() {
     },
     dedupingInterval: 0
   });
+
+  const refreshData = () => {
+    mutate(API);
+  };
+  useEffect(() => {refreshData},[])
 
   const handlePageChange = (data: { selected: React.SetStateAction<number>; }) => setCurrentPage(data.selected);
 

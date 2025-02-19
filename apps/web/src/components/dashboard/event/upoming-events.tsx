@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 import { authAxios } from "../../utils/axiosKits";
 import { IEvent } from "@/interface/EventInterface";
 import UpcomingEventCard from "./upcoming-event-card";
@@ -9,8 +9,15 @@ const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const UpcomingEvent = () => {
   const {data, error } = useSWR("/events/upcoming", fetcher,{
-    dedupingInterval: 0,
+    dedupingInterval: 0
   });
+
+
+
+  const refreshData = () => {
+    mutate('/events/upcoming');
+  };
+  useEffect(() => {refreshData},[])
 
 
   return (
