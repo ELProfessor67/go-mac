@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import { apiProvider as apiConnector } from "@/mongo/index";
 
+
+export const dynamic = "force-dynamic";
 // GET - Search for companies based on query parameters
 export async function GET(request: Request) {
   const connect = await apiConnector;
@@ -31,4 +33,13 @@ export async function GET(request: Request) {
       error: "Server Error",
     }, { status: 500 });
   }
+}
+
+
+
+
+export async function POST(request: Request) {
+  return NextResponse.json({
+    success: true
+  }, { status: 200 });
 }

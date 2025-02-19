@@ -16,6 +16,7 @@ async function connectDB() {
     );
   }
 }
+export const dynamic = "force-dynamic";
 
 export async function GET(){
     try {
@@ -24,6 +25,7 @@ export async function GET(){
         if (!connect || connect instanceof NextResponse) return connect;
         
         const events = await connect.getUpcomingEvent();
+        console.log(events.length,'lenght of events')
         console.log("events fetched", events)
         return NextResponse.json({
             message: "Successfully fetched all upcoming events",
@@ -40,3 +42,14 @@ export async function GET(){
         );
     }
 }
+
+export async function POST(request: Request) {
+  return NextResponse.json({
+    success: true
+  }, { status: 200 });
+}
+
+
+
+
+

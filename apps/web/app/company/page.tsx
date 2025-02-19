@@ -45,17 +45,15 @@ function CompanyDataList() {
   const currentPath = pathname === "/company" ? CompanyAPI : `${CompanyAPI}${pathname.replace("/company", "")}`;
 
   const API = `${currentPath}?&page=${currentPage}`;
-  // const { data, error } = useSWR(API, fetcher, {
-  //   fallbackData: {
-  //     companies: companiesPerData,
-  //     companyFilter: companyFilter,
-  //     totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
-  //     loading: true,
-  //   },
-  //   dedupingInterval: 0
-  // });
-
-  const {data, error } = useFetch(API);
+  const { data, error } = useSWR(API, fetcher, {
+    fallbackData: {
+      companies: companiesPerData,
+      companyFilter: companyFilter,
+      totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
+      loading: true,
+    },
+    dedupingInterval: 0
+  });
 
 
   const handlePageChange = (data: { selected: React.SetStateAction<number>; }) => setCurrentPage(data.selected);
